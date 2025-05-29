@@ -10,15 +10,12 @@ import org.springframework.boot.test.autoconfigure.json.AutoConfigureJsonTesters
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.json.JacksonTester;
 
-/**
- * Testing the Data Contract
- */
+/** Testing the Data Contract */
 @SpringBootTest(classes = Require4testingApplication.class)
 @AutoConfigureJsonTesters
 class RequirementJsonTests {
 
-  @Autowired
-  private JacksonTester<Requirement> json;
+  @Autowired private JacksonTester<Requirement> json;
 
   @Test
   void testSerialize() throws IOException {
@@ -28,17 +25,17 @@ class RequirementJsonTests {
     requirement.setDescription("This is a test requirement");
     requirement.setPriority(Priority.HIGH);
 
-    assertThat(json.write(requirement)).isStrictlyEqualToJson("expected.json");
-    assertThat(json.write(requirement)).hasJsonPathNumberValue(".@id");
-    assertThat(json.write(requirement)).extractingJsonPathNumberValue("@.id").isEqualTo(1L);
-    assertThat(json.write(requirement)).hasJsonPathStringValue("@.title");
+    assertThat(json.write(requirement)).hasJsonPathNumberValue("$.id");
+    assertThat(json.write(requirement)).extractingJsonPathNumberValue("$.id").isEqualTo(1);
+    assertThat(json.write(requirement)).hasJsonPathStringValue("$.title");
     assertThat(json.write(requirement))
-        .extractingJsonPathStringValue("@.title")
+        .extractingJsonPathStringValue("$.title")
         .isEqualTo("Test Requirement");
-    assertThat(json.write(requirement)).hasJsonPathStringValue("@.description");
-    assertThat(json.write(requirement)).extractingJsonPathStringValue("@.description");
+    assertThat(json.write(requirement)).hasJsonPathStringValue("$.description");
     assertThat(json.write(requirement))
-        .extractingJsonPathStringValue("@.description")
+        .extractingJsonPathStringValue("$.description")
         .isEqualTo("This is a test requirement");
+
+    assertThat(json.write(requirement)).isStrictlyEqualToJson("expected.json");
   }
 }

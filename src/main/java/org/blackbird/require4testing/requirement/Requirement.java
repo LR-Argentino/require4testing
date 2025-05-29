@@ -53,9 +53,7 @@ public class Requirement {
   @NotBlank
   private Status status;
 
-  /**
-   * ManyToOne relationship with User entity.
-   */
+  /** ManyToOne relationship with User entity. */
   @Column(name = "created_by", nullable = false)
   @NotNull
   private Long createdBy;
