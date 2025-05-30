@@ -44,13 +44,11 @@ public class Requirement {
   @Enumerated(EnumType.STRING)
   @Column(nullable = false)
   @NotNull
-  @NotBlank
   private Priority priority;
 
   @Enumerated(EnumType.STRING)
   @Column(nullable = false)
   @NotNull
-  @NotBlank
   private Status status;
 
   /** TODO: Change it to ManyToOne relationship with User entity. */
