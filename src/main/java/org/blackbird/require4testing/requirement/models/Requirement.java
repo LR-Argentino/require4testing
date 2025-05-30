@@ -1,4 +1,4 @@
-package org.blackbird.require4testing.requirement;
+package org.blackbird.require4testing.requirement.models;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -53,7 +53,7 @@ public class Requirement {
   @NotBlank
   private Status status;
 
-  /** ManyToOne relationship with User entity. */
+  /** TODO: Change it to ManyToOne relationship with User entity. */
   @Column(name = "created_by", nullable = false)
   @NotNull
   private Long createdBy;
@@ -65,5 +65,6 @@ public class Requirement {
   @PrePersist
   protected void onCreate() {
     createdOn = new Timestamp(System.currentTimeMillis());
+    status = Status.OPEN;
   }
 }
