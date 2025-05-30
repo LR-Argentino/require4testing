@@ -29,6 +29,11 @@ public class RequirementServiceImpl implements RequirementService {
 
   @Override
   public Requirement create(CreateRequirementRequest requirement) {
+
+    if (requirement.title() == null || requirement.title().isBlank()) {
+      throw new IllegalArgumentException("Title cannot be null or blank");
+    }
+
     Requirement newRequirement = new Requirement();
     newRequirement.setTitle(requirement.title());
     newRequirement.setDescription(requirement.description());

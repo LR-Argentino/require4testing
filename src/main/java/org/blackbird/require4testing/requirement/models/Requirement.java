@@ -9,9 +9,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import java.sql.Timestamp;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -34,30 +31,25 @@ public class Requirement {
   private Long id;
 
   @Column(nullable = false)
-  @NotBlank
-  @NotNull
-  @Size(max = 100)
   private String title;
 
   private String description;
 
   @Enumerated(EnumType.STRING)
   @Column(nullable = false)
-  @NotNull
   private Priority priority;
 
   @Enumerated(EnumType.STRING)
   @Column(nullable = false)
-  @NotNull
   private Status status;
 
-  /** TODO: Change it to ManyToOne relationship with User entity. */
+  /**
+   * TODO: Change it to ManyToOne relationship with User entity.
+   */
   @Column(name = "created_by", nullable = false)
-  @NotNull
   private Long createdBy;
 
   @Column(name = "created_on", nullable = false)
-  @NotNull
   private Timestamp createdOn;
 
   @PrePersist
