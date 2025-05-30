@@ -74,4 +74,20 @@ class RequirementServiceTest {
 
     verify(requirementRepository, never()).save(any(Requirement.class));
   }
+
+  @Test
+  void test_create_shouldNotSaveRequriementToRepository_WhenPriorityIsNull() {
+    // Arrange
+    String title = "Title";
+    String description = "Description of new requirement";
+
+    CreateRequirementRequest requirementToCreate =
+        new CreateRequirementRequest(title, description, null);
+
+    assertThrows(IllegalArgumentException.class, () -> {
+      requirementService.create(requirementToCreate);
+    });
+
+    verify(requirementRepository, never()).save(any(Requirement.class));
+  }
 }

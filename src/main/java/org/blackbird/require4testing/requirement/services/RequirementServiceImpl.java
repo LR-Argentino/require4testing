@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class RequirementServiceImpl implements RequirementService {
 
-  private RequirementRepository requirementRepository;
+  private final RequirementRepository requirementRepository;
 
   @Autowired
   public RequirementServiceImpl(RequirementRepository requirementRepository) {
@@ -32,6 +32,10 @@ public class RequirementServiceImpl implements RequirementService {
 
     if (requirement.title() == null || requirement.title().isBlank()) {
       throw new IllegalArgumentException("Title cannot be null or blank");
+    }
+
+    if (requirement.priority() == null) {
+      throw new IllegalArgumentException("Priority cannot be null");
     }
 
     Requirement newRequirement = new Requirement();
