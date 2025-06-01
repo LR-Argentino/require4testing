@@ -1,12 +1,16 @@
-package org.blackbird.requirefortesting.requirements;
+package org.blackbird.requirefortesting.requirements.domain;
 
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.sql.Timestamp;
+import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 @Table(name = "requirements")
@@ -16,30 +20,35 @@ class Requirement {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
+  @Column(nullable = false)
   private String title;
 
   private String description;
 
+  @Enumerated(EnumType.STRING)
+  @Column(nullable = false)
   private Priority priority = Priority.LOW;
 
+  @Enumerated(EnumType.STRING)
+  @Column(nullable = false)
   private Status status = Status.OPEN;
 
-  private String createBy;
+  @Column(name = "created_by", nullable = false)
+  private String createdBy;
 
+  @CreationTimestamp
   private Timestamp createdAt;
 
-  public Requirement(Long id, String title, String description, Priority priority, Status status,
-      String createBy, Timestamp createdAt) {
-    this.id = id;
-    this.title = title;
-    this.description = description;
-    this.priority = priority;
-    this.status = status;
-    this.createBy = createBy;
-    this.createdAt = createdAt;
+  public Requirement(String title, String description, Priority priority, Status status,
+      String createBy) {
+    setTitle(title);
+    setDescription(description);
+    setPriority(priority);
+    setStatus(status);
+    setCreatedBy(createBy);
   }
 
-  public Requirement() {
+  protected Requirement() {
 
   }
 
@@ -63,8 +72,8 @@ class Requirement {
     return status;
   }
 
-  public String getCreateBy() {
-    return createBy;
+  public String getCreatedBy() {
+    return createdBy;
   }
 
   public Timestamp getCreatedAt() {
@@ -76,7 +85,7 @@ class Requirement {
       throw new IllegalArgumentException("Title cannot be null or empty");
     }
 
-    if (getStatus().isInProgress()) {
+    if (getStatus().isInProgress() || getStatus().isClosed()) {
       throw new IllegalStateException("Cannot change title of an open requirement");
     }
 
@@ -84,7 +93,7 @@ class Requirement {
   }
 
   public void setDescription(String description) {
-    if (getStatus().isInProgress()) {
+    if (getStatus().isInProgress() || getStatus().isClosed()) {
       throw new IllegalStateException("Cannot change description of an open requirement");
     }
     this.description = description;
@@ -98,11 +107,7 @@ class Requirement {
     this.status = status;
   }
 
-  public void setCreateBy(String createBy) {
-    this.createBy = createBy;
-  }
-
-  public void setCreatedAt(Timestamp createdAt) {
-    this.createdAt = createdAt;
+  public void setCreatedBy(String createdBy) {
+    this.createdBy = createdBy;
   }
 }

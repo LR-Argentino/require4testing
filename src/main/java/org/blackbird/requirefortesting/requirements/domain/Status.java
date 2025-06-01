@@ -1,4 +1,4 @@
-package org.blackbird.requirefortesting.requirements;
+package org.blackbird.requirefortesting.requirements.domain;
 
 enum Status {
   OPEN,

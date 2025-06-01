@@ -1,4 +1,4 @@
-package org.blackbird.requirefortesting.requirements;
+package org.blackbird.requirefortesting.requirements.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -56,5 +56,32 @@ class RequirementTests {
     assertThrows(IllegalStateException.class, () -> requirement.setTitle("Updated Title"));
     assertThrows(IllegalStateException.class,
         () -> requirement.setDescription("Updated Description"));
+  }
+
+  @Test
+  void test_create_shouldThrowException_whenUpdatingRequirmentWhenStatusIsInClosed() {
+    Requirement requirement = new Requirement();
+    requirement.setTitle("Test Requirement");
+    requirement.setStatus(Status.CLOSED);
+
+    assertThrows(IllegalStateException.class, () -> requirement.setTitle("Updated Title"));
+    assertThrows(IllegalStateException.class,
+        () -> requirement.setDescription("Updated Description"));
+  }
+
+  @Test
+  void test_create_shouldUpdateRequirment_WhenStatusIsOpen() {
+    Requirement requirement = new Requirement();
+    String title = "Test Requirement";
+    String updatedTitle = "Updated Title";
+    String updatedDescription = "Updated Description";
+
+    requirement.setTitle(title);
+
+    requirement.setTitle(updatedTitle);
+    requirement.setDescription(updatedDescription);
+
+    assertThat(requirement.getTitle()).isEqualTo(updatedTitle);
+    assertThat(requirement.getDescription()).isEqualTo(updatedDescription);
   }
 }
