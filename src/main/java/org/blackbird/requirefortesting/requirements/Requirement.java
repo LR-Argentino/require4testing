@@ -20,16 +20,23 @@ class Requirement {
 
   private String description;
 
-  private Priority priority;
+  private Priority priority = Priority.LOW;
 
-  private Status status;
+  private Status status = Status.OPEN;
 
   private String createBy;
 
   private Timestamp createdAt;
 
-  public Requirement(Long id) {
+  public Requirement(Long id, String title, String description, Priority priority, Status status,
+      String createBy, Timestamp createdAt) {
     this.id = id;
+    this.title = title;
+    this.description = description;
+    this.priority = priority;
+    this.status = status;
+    this.createBy = createBy;
+    this.createdAt = createdAt;
   }
 
   public Requirement() {

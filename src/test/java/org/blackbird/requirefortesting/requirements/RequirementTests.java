@@ -1,5 +1,6 @@
 package org.blackbird.requirefortesting.requirements;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
@@ -11,27 +12,38 @@ class RequirementTests {
 
   @Test
   void test_create_shouldThrowException_whenTitleIsBlank() {
-    String title = "  ";
-
-    Requirement requirement = new Requirement(1L);
-
-    assertThrows(IllegalArgumentException.class, () -> requirement.setTitle(title));
+    Requirement requirement = new Requirement();
+    assertThrows(IllegalArgumentException.class, () -> requirement.setTitle(" "));
   }
 
   @Test
   void test_create_shouldThrowException_whenTitleIsNull() {
-
-    Requirement requirement = new Requirement(1L);
-
+    Requirement requirement = new Requirement();
     assertThrows(IllegalArgumentException.class, () -> requirement.setTitle(null));
   }
 
   @Test
   void test_create_shouldThrowException_whenTitleIsEmpty() {
-    String title = "";
+    Requirement requirement = new Requirement();
+    assertThrows(IllegalArgumentException.class, () -> requirement.setTitle(""));
+  }
 
-    Requirement requirement = new Requirement(1L);
+  @Test
+  void test_create_shouldHaveStatusOpen_whenCreated() {
+    Requirement requirement = new Requirement();
 
-    assertThrows(IllegalArgumentException.class, () -> requirement.setTitle(title));
+    requirement.setTitle("Test Requirement");
+
+    assertThat(requirement.getStatus()).isEqualTo(Status.OPEN);
+  }
+
+  @Test
+  void test_create_shouldHavePriorityLow_whenCreatedAndPriorityIsNotSet() {
+    Requirement requirement = new Requirement();
+    String title = "Test Requirement";
+
+    requirement.setTitle(title);
+
+    assertThat(requirement.getPriority()).isEqualTo(Priority.LOW);
   }
 }
