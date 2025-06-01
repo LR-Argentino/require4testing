@@ -17,4 +17,21 @@ class RequirementTests {
 
     assertThrows(IllegalArgumentException.class, () -> requirement.setTitle(title));
   }
+
+  @Test
+  void test_create_shouldThrowException_whenTitleIsNull() {
+
+    Requirement requirement = new Requirement(1L);
+
+    assertThrows(IllegalArgumentException.class, () -> requirement.setTitle(null));
+  }
+
+  @Test
+  void test_create_shouldThrowException_whenTitleIsEmpty() {
+    String title = "";
+
+    Requirement requirement = new Requirement(1L);
+
+    assertThrows(IllegalArgumentException.class, () -> requirement.setTitle(title));
+  }
 }
