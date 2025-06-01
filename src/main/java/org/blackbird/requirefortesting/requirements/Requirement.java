@@ -75,10 +75,18 @@ class Requirement {
     if (title == null || title.isEmpty() || title.isBlank()) {
       throw new IllegalArgumentException("Title cannot be null or empty");
     }
+
+    if (getStatus().isInProgress()) {
+      throw new IllegalStateException("Cannot change title of an open requirement");
+    }
+
     this.title = title;
   }
 
   public void setDescription(String description) {
+    if (getStatus().isInProgress()) {
+      throw new IllegalStateException("Cannot change description of an open requirement");
+    }
     this.description = description;
   }
 

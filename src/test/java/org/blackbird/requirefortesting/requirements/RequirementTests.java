@@ -46,4 +46,15 @@ class RequirementTests {
 
     assertThat(requirement.getPriority()).isEqualTo(Priority.LOW);
   }
+
+  @Test
+  void test_create_shouldThrowException_whenUpdatingRequirmentWhenStatusIsInProgress() {
+    Requirement requirement = new Requirement();
+    requirement.setTitle("Test Requirement");
+    requirement.setStatus(Status.IN_PROGRESS);
+
+    assertThrows(IllegalStateException.class, () -> requirement.setTitle("Updated Title"));
+    assertThrows(IllegalStateException.class,
+        () -> requirement.setDescription("Updated Description"));
+  }
 }
