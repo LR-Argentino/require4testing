@@ -7,4 +7,5 @@ public interface SecurityService {
   boolean isUserRequirementEngineer();
 
   boolean isUserTester();
+
 }

@@ -1,4 +1,4 @@
-package org.blackbird.requirefortesting.requirements;
+package org.blackbird.requirefortesting.requirements.domain;
 
 
 import jakarta.persistence.Column;
@@ -14,7 +14,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 @Table(name = "requirements")
-class Requirement {
+public class Requirement {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,7 +48,7 @@ class Requirement {
     setCreatedBy(createBy);
   }
 
-  protected Requirement() {
+  public Requirement() {
 
   }
 
@@ -112,27 +112,3 @@ class Requirement {
   }
 }
 
-
-enum Status {
-  OPEN,
-  IN_PROGRESS,
-  CLOSED;
-
-  public boolean isOpen() {
-    return this == OPEN;
-  }
-
-  public boolean isInProgress() {
-    return this == IN_PROGRESS;
-  }
-
-  public boolean isClosed() {
-    return this == CLOSED;
-  }
-}
-
-enum Priority {
-  HIGH,
-  MEDIUM,
-  LOW,
-}
