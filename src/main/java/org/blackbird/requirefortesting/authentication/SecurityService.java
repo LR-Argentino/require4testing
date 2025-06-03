@@ -4,5 +4,7 @@ public interface SecurityService {
 
   String getCurrentUserId();
 
-  boolean isRequirementEngineer();
+  boolean isUserRequirementEngineer();
+
+  boolean isUserTester();
 }
