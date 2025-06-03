@@ -16,7 +16,7 @@ class ModularityApplicationTests {
     System.out.println("Modules in the application:");
     System.out.println(modules);
     new Documenter(modules)
-        .writeIndividualModulesAsPlantUml()
+        .writeDocumentation()
         .writeModulesAsPlantUml();
   }
 }

@@ -1,4 +1,4 @@
-package org.blackbird.requirefortesting.requirements.domain;
+package org.blackbird.requirefortesting.requirements;
 
 
 import jakarta.persistence.Column;
@@ -110,4 +110,29 @@ class Requirement {
   public void setCreatedBy(String createdBy) {
     this.createdBy = createdBy;
   }
+}
+
+
+enum Status {
+  OPEN,
+  IN_PROGRESS,
+  CLOSED;
+
+  public boolean isOpen() {
+    return this == OPEN;
+  }
+
+  public boolean isInProgress() {
+    return this == IN_PROGRESS;
+  }
+
+  public boolean isClosed() {
+    return this == CLOSED;
+  }
+}
+
+enum Priority {
+  HIGH,
+  MEDIUM,
+  LOW,
 }

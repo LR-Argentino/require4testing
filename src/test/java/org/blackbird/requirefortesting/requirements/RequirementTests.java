@@ -1,4 +1,4 @@
-package org.blackbird.requirefortesting.requirements.domain;
+package org.blackbird.requirefortesting.requirements;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
