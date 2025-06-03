@@ -41,8 +41,9 @@ class RequirementServiceImpl implements RequirmentService {
           "Requirement is still open, cannot mark it as completed");
     } else if (fetchedRequirement.getStatus().isInProgress()) {
       fetchedRequirement.setStatus(Status.CLOSED);
-    } else if (fetchedRequirement.getStatus().isClosed()) {
-      return;
+    } else {
+      throw new IllegalStateException(
+          "Requirement is already closed, cannot mark it as completed");
     }
   }
 }
