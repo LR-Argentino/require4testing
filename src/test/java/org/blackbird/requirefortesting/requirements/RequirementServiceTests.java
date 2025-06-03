@@ -1,6 +1,7 @@
 package org.blackbird.requirefortesting.requirements;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
@@ -73,6 +74,7 @@ class RequirementServiceTests {
     String title = "New Requirement";
     String description = "Requirement description";
     Priority priority = Priority.MEDIUM;
+    Long requirementId = 1L;
 
     Requirement requirement = new Requirement();
     requirement.setTitle(title);
@@ -82,9 +84,31 @@ class RequirementServiceTests {
 
     Optional<Requirement> fetchedRequirement = Optional.of(requirement);
 
-    when(requirementRepository.findById(1L)).thenReturn(fetchedRequirement);
+    when(requirementRepository.findById(requirementId)).thenReturn(fetchedRequirement);
     when(securityService.isUserTester()).thenReturn(Boolean.TRUE);
 
-    assertThrows(IllegalStateException.class, () -> sut.completeRequirement(1L));
+    assertThrows(IllegalStateException.class, () -> sut.completeRequirement(requirementId));
+  }
+
+
+  @Test
+  void test_completeRequirement_shouldChangeStatusSuccessfullyWhenRequirementIsInProgress() {
+    String title = "New Requirement";
+    String description = "Requirement description";
+    Priority priority = Priority.MEDIUM;
+    Long requirementId = 1L;
+
+    Requirement requirement = new Requirement();
+    requirement.setTitle(title);
+    requirement.setDescription(description);
+    requirement.setPriority(priority);
+    requirement.setStatus(Status.IN_PROGRESS);
+
+    Optional<Requirement> fetchedRequirement = Optional.of(requirement);
+
+    when(requirementRepository.findById(requirementId)).thenReturn(fetchedRequirement);
+    when(securityService.isUserTester()).thenReturn(Boolean.TRUE);
+
+    assertDoesNotThrow(() -> sut.completeRequirement(requirementId));
   }
 }
