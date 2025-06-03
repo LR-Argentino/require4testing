@@ -10,20 +10,17 @@ class RequirementServiceImpl implements RequirmentService {
 
   @Override
   public Requirement createRequirement(String title, String description, Priority priority) {
-    String userId = securityService.getCurrentUserId();
-
-    if (userId == null) {
-      throw new IllegalStateException("User is not authenticated");
-    }
 
     if (!securityService.isRequirementEngineer()) {
       throw new IllegalStateException("Only requirement engineers can create requirements");
     }
-
+    String userId = securityService.getCurrentUserId();
+    
     Requirement newRequirement = new Requirement();
     newRequirement.setTitle(title);
     newRequirement.setDescription(description);
     newRequirement.setPriority(priority);
+    newRequirement.setCreatedBy(userId);
 
     return newRequirement;
   }

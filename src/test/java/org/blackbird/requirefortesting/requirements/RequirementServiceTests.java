@@ -1,6 +1,7 @@
 package org.blackbird.requirefortesting.requirements;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 import java.util.UUID;
@@ -35,5 +36,18 @@ class RequirementServiceTests {
     assertThat(creaedRequirement.getTitle()).isEqualTo(title);
     assertThat(creaedRequirement.getDescription()).isEqualTo(description);
     assertThat(creaedRequirement.getPriority()).isEqualTo(priority);
+  }
+
+  @Test
+  void test_createRequirement_shouldThrowExceptionWhenUserIsNotRequirementEngineer() {
+    String title = "New Requirement";
+    String description = "Requirement description";
+    Priority priority = Priority.MEDIUM;
+    
+    when(securityService.getCurrentUserId()).thenReturn(UUID.randomUUID().toString());
+    when(securityService.isRequirementEngineer()).thenReturn(false);
+
+    assertThrows(IllegalArgumentException.class,
+        () -> sut.createRequirement(title, description, priority));
   }
 }
