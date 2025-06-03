@@ -28,58 +28,51 @@ class RequirementServiceTests {
 
   @Test
   void test_createRequirement_shouldReturnCreatedRequirementByRoleRequirementEngineer() {
-    String title = "New Requirement";
-    String description = "Requirement description";
     Priority priority = Priority.MEDIUM;
+    Requirement requirement = createRequirement();
+    requirement.setPriority(priority);
+
     when(securityService.isUserRequirementEngineer()).thenReturn(Boolean.TRUE);
     when(securityService.getCurrentUserId()).thenReturn(UUID.randomUUID().toString());
 
-    Requirement creaedRequirement = sut.createRequirement(title,
-        description, priority);
+    Requirement creaedRequirement = sut.createRequirement(requirement.getTitle(),
+        requirement.getDescription(), priority);
 
     assertThat(creaedRequirement).isNotNull();
-    assertThat(creaedRequirement.getTitle()).isEqualTo(title);
-    assertThat(creaedRequirement.getDescription()).isEqualTo(description);
+    assertThat(creaedRequirement.getTitle()).isEqualTo(requirement.getTitle());
+    assertThat(creaedRequirement.getDescription()).isEqualTo(requirement.getDescription());
     assertThat(creaedRequirement.getPriority()).isEqualTo(priority);
   }
 
   @Test
   void test_createRequirement_shouldThrowExceptionWhenUserIsNotRequirementEngineer() {
-    String title = "New Requirement";
-    String description = "Requirement description";
-    Priority priority = Priority.MEDIUM;
+    Requirement requirement = createRequirement();
 
     when(securityService.isUserRequirementEngineer()).thenReturn(false);
 
     assertThrows(IllegalStateException.class,
-        () -> sut.createRequirement(title, description, priority));
+        () -> sut.createRequirement(requirement.getTitle(), requirement.getDescription(),
+            requirement.getPriority()));
   }
 
   @Test
   void test_createRequirement_shouldHaveStatusOPENAfterCreation() {
-    String title = "New Requirement";
-    String description = "Requirement description";
-    Priority priority = Priority.MEDIUM;
+    Requirement requirement = createRequirement();
 
     when(securityService.isUserRequirementEngineer()).thenReturn(Boolean.TRUE);
     when(securityService.getCurrentUserId()).thenReturn(UUID.randomUUID().toString());
 
-    Requirement createdRequirement = sut.createRequirement(title, description, priority);
+    Requirement createdRequirement = sut.createRequirement(requirement.getTitle(),
+        requirement.getDescription(), requirement.getPriority());
 
     assertThat(createdRequirement.getStatus()).isEqualTo(Status.OPEN);
   }
 
   @Test
   void test_completeRequirement_shouldThrowErrorWhenRequirementIsOnStatusOPEN() {
-    String title = "New Requirement";
-    String description = "Requirement description";
-    Priority priority = Priority.MEDIUM;
+    Requirement requirement = createRequirement();
     Long requirementId = 1L;
 
-    Requirement requirement = new Requirement();
-    requirement.setTitle(title);
-    requirement.setDescription(description);
-    requirement.setPriority(priority);
     requirement.setStatus(Status.OPEN);
 
     Optional<Requirement> fetchedRequirement = Optional.of(requirement);
@@ -93,15 +86,9 @@ class RequirementServiceTests {
 
   @Test
   void test_completeRequirement_shouldChangeStatusSuccessfullyWhenRequirementIsInProgress() {
-    String title = "New Requirement";
-    String description = "Requirement description";
-    Priority priority = Priority.MEDIUM;
+    Requirement requirement = createRequirement();
     Long requirementId = 1L;
 
-    Requirement requirement = new Requirement();
-    requirement.setTitle(title);
-    requirement.setDescription(description);
-    requirement.setPriority(priority);
     requirement.setStatus(Status.IN_PROGRESS);
 
     Optional<Requirement> fetchedRequirement = Optional.of(requirement);
@@ -110,5 +97,18 @@ class RequirementServiceTests {
     when(securityService.isUserTester()).thenReturn(Boolean.TRUE);
 
     assertDoesNotThrow(() -> sut.completeRequirement(requirementId));
+  }
+
+  // HELPER METHODS
+
+  private Requirement createRequirement() {
+    String title = "New Requirement";
+    String description = "Requirement description";
+
+    Requirement requirement = new Requirement();
+    requirement.setTitle(title);
+    requirement.setDescription(description);
+
+    return requirement;
   }
 }
